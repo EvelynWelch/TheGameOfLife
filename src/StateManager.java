@@ -14,6 +14,10 @@ public class StateManager {
 	StateManager(boolean[][] board) {
 		this.board = board;
 	}
+	
+	StateManager(int size){
+		this.board = new boolean[size][size];
+	}
 
 	/**
 	 * gets the x, y of all neighbors NOTE: for accessing the board its [y][x] NOTE:
@@ -58,8 +62,12 @@ public class StateManager {
 			return false;
 		} else if((livingNeighbors == 1 || livingNeighbors == 2) && !cell) {
 			return false;
+		} else if(livingNeighbors == 0) {
+			// no living neighbors dies
+			return false;
 		}
 		System.out.println("StateManager.nextState() error!!");
+		System.out.printf("point: y = %d, x = %d %n", y , x);
 		return false;
 	}
 	
@@ -86,15 +94,26 @@ public class StateManager {
 	}
 	
 	/**
-	 * Calculates the next state for each cell. NOTE: this one does it in order, I'm
-	 * still unsure if needs to compute the whole board without updating, or if it
-	 * does it like this
+	 * Calculates the next state for each cell. 
 	 */
-	public void nextGenerations() {
+	public void nextGeneration() {
+		// Assumes all rows have the same length
+		boolean[][] nextGeneration = new boolean[board.length][board[0].length];
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
-				board[i][j] = nextState(i, j);
+				nextGeneration[i][j] = nextState(i, j);
 			}
+		}
+		board = nextGeneration;
+		printBoard();
+	}
+	
+	public void printBoard() {
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
+				System.out.print(board[i][j] + " ");
+			}
+			System.out.print("\n");
 		}
 	}
 

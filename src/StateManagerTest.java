@@ -161,7 +161,33 @@ class StateManagerTest {
 	
 	@Test
 	void nextGenerationTest() {
+		boolean[][] board = {
+				// if a dead cell has 3 living neighbors it becomes live
+				// next state for [1][0] should be true
+				{false, false, false, false, false},
+				{false, true, true, true, false},
+				{false, true, true, true, false},
+				{false, true, true, true, false},
+				{false, false, false, false, false},
+		};
 		
+		boolean[][] solution = {
+				{false, false, true, false, false},
+				{false, true, false, true, false},
+				{true, false, false, false, true},
+				{false, true, false, true, false},
+				{false, false, true, false, false},
+		};
+		
+		StateManager stateManager = new StateManager(board);
+		stateManager.nextGeneration();
+		int[] t1 = {1,2};
+		int[] t2 = {1,2};
+		for(int i = 0; i < stateManager.board.length; i++) {
+			for(int j = 0; j < stateManager.board[i].length; j++) {
+				assertEquals(solution[i][j], stateManager.board[i][j]);
+			}
+		}		
 	}
 
 }

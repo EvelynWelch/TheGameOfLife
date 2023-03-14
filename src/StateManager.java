@@ -6,7 +6,7 @@ public class StateManager {
 	// True is alive, false is dead.
 
 	boolean[][] board;
-
+	
 	StateManager() {
 		this.board = new boolean[100][100];
 	}
@@ -105,7 +105,7 @@ public class StateManager {
 			}
 		}
 		board = nextGeneration;
-		printBoard();
+//		printBoard();
 	}
 	
 	public void printBoard() {

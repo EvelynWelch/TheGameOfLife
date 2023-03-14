@@ -4,6 +4,9 @@ import javafx.scene.shape.Rectangle;
 
 public class BoardDisplay extends GridPane {
 	StateManager stateManager;
+	boolean mouseDown = false;
+	
+	
 	
 	/** 
 	 * NOTE: the state manager has to be instantiated
@@ -11,6 +14,12 @@ public class BoardDisplay extends GridPane {
 	BoardDisplay(StateManager stateManager){
 		super();
 		this.stateManager = stateManager;
+		setOnMousePressed(e -> {
+			mouseDown = true;
+		});
+		setOnMouseReleased(e -> {
+			mouseDown = false;
+		});
 	}
 	
 	/** 
@@ -37,6 +46,11 @@ public class BoardDisplay extends GridPane {
 	public Rectangle cellFactory(boolean alive) {
 		// alive sets it's color
 		Rectangle cell = new Rectangle(10, 10);
+		cell.setOnMouseEntered(e -> {
+			if(mouseDown) {
+				
+			}
+		});
 		cell.setStroke(Color.BLACK);
 		if(alive) {
 			cell.setFill(Color.GREEN);

@@ -43,6 +43,7 @@ public class Display extends Application {
 		// TODO: export current state (can only happen when paused) on button press
 		// pause then export
 		// TODO: load state (Take a file string and check if it exists etc)
+		// TODO: Make it so people can draw on the board.
 
 		// Generate a random board
 		Random rand = new Random();
@@ -59,7 +60,7 @@ public class Display extends Application {
 		board.drawBoard();
 		
 		// Set up the Animation
-		Timeline animation = new Timeline(new KeyFrame(Duration.millis(1000), e -> board.nextGeneration()));
+		Timeline animation = new Timeline(new KeyFrame(Duration.millis(500), e -> board.nextGeneration()));
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.play(); // Start animation
 

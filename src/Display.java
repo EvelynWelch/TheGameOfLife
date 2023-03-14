@@ -2,19 +2,10 @@ import java.util.Random;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-
-import javafx.animation.FillTransition;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 
@@ -54,7 +45,6 @@ public class Display extends Application {
 		// TODO: load state (Take a file string and check if it exists etc)
 
 		// Generate a random board
-
 		Random rand = new Random();
 		boolean[][] b = new boolean[10][10];
 		for (int i = 0; i < 10; i++) {
@@ -62,17 +52,18 @@ public class Display extends Application {
 				b[i][j] = rand.nextBoolean();
 			}
 		}
-		StateManager board = new StateManager(b);
-
-		// add all the cells to the GridPane
-		BoardDisplay pane = new BoardDisplay(board);
-		pane.drawBoard();
-
-		Timeline animation = new Timeline(new KeyFrame(Duration.millis(1000), e -> pane.nextGeneration()));
+		// create a new StateManager and pass it to BoardDisplay
+		StateManager stateManager = new StateManager(b);
+		BoardDisplay board = new BoardDisplay(stateManager); 
+		// Draw the initial state of the board
+		board.drawBoard();
+		
+		// Set up the Animation
+		Timeline animation = new Timeline(new KeyFrame(Duration.millis(1000), e -> board.nextGeneration()));
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.play(); // Start animation
 
-		Scene scene = new Scene(pane, 200, 200);
+		Scene scene = new Scene(board, 200, 200);
 
 		primaryStage.setTitle("The Game of Life"); // Set the stage title
 		primaryStage.setScene(scene); // Place the scene in the stage

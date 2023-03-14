@@ -105,7 +105,7 @@ public class StateManager {
 			}
 		}
 		board = nextGeneration;
-//		printBoard();
+		// printBoard();
 	}
 	
 	public void printBoard() {

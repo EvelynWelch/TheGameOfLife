@@ -18,6 +18,19 @@ public class StateManager {
 	StateManager(int size) {
 		this.board = new boolean[size][size];
 	}
+	
+	/** 
+	 * Get the cell at board[y][x]
+	 * */
+	public boolean getCellState(int i, int j) {
+		return board[i][j];
+	}
+	
+	public void setCellState(int i, int j, boolean state) {
+//		System.out.println("setCellState() called");
+		System.out.printf("i: %d, j: %d%n", i, j);
+		board[i][j] = state;
+	}
 
 	/**
 	 * gets the x, y of all neighbors NOTE: for accessing the board its [y][x] NOTE:
@@ -108,6 +121,9 @@ public class StateManager {
 		// printBoard();
 	}
 
+	/**
+	 * prints out the entire board.
+	 *  */
 	public void printBoard() {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {

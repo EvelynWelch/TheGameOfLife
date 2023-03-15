@@ -41,9 +41,9 @@ public class Display extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		// TODO: timer that controls how long it shows each generation
-		// TODO: skip x generations button / input
-		// TODO: set board size input (this needs to be done before it has started)
+		// [x] TODO: timer that controls how long it shows each generation
+		// [x] TODO: skip x generations button / input
+		// [x] TODO: set board size input (this needs to be done before it has started)
 		// TODO: export current state (can only happen when paused) on button press
 		// pause then export
 		// TODO: load state (Take a file string and check if it exists etc)
@@ -66,7 +66,7 @@ public class Display extends Application {
 		StateManager stateManager = new StateManager(b);
 		BoardDisplay board = new BoardDisplay(stateManager);
 		// Draw the initial state of the board
-		board.drawBoard();
+		board.makeBoard();
 		int defaultDuration = 500;
 		// Set up the Animation
 		Timeline animation = new Timeline(new KeyFrame(Duration.millis(playSpeed), e -> board.nextGeneration()));
@@ -153,9 +153,6 @@ public class Display extends Application {
 //				isPlaying = true;
 //			}
 		});
-		
-
-		
 		// Add the ui and board the parent
 		wrapper.setCenter(board);
 		wrapper.setBottom(ui.getUIpane());

@@ -2,8 +2,10 @@ import java.util.Random;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
@@ -71,7 +73,6 @@ public class Display extends Application {
 		BoardDisplay board = new BoardDisplay(stateManager);
 		// Draw the initial state of the board
 		board.makeBoard();
-		int defaultDuration = 500;
 		// Set up the Animation
 		Timeline animation = new Timeline(new KeyFrame(Duration.millis(playSpeed), e -> board.nextGeneration()));
 		animation.setCycleCount(Timeline.INDEFINITE);
@@ -171,15 +172,23 @@ public class Display extends Application {
 			board.stateManager.changeBoardSize(boardSize);
 			// re draw the board.
 			board.makeBoard();
+			board.setMaxSize(750, 750);
 //			if(wasPlaying) {
 //				animation.play();
 //				isPlaying = true;
 //			}
 		});
+		
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setPrefSize(500, 500);
+//		scrollPane.setMaxSize(250, 250);
+		scrollPane.setContent(board);
 		// Add the ui and board the parent
-		wrapper.setCenter(board);
-		wrapper.setBottom(ui.getUIpane());
-		Scene scene = new Scene(wrapper, 500, 500);
+		wrapper.setRight(ui.getUIpane());
+		wrapper.setCenter(scrollPane);
+
+
+		Scene scene = new Scene(wrapper,1000, 750);
 
 		primaryStage.setTitle("The Game of Life"); // Set the stage title
 		primaryStage.setScene(scene); // Place the scene in the stage

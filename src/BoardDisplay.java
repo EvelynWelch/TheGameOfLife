@@ -12,15 +12,7 @@ public class BoardDisplay extends GridPane {
 	BoardDisplay(StateManager stateManager) {
 		super();
 		this.stateManager = stateManager;
-		setOnMousePressed(e -> {
-//			System.out.println("mouse pressed");
-			mouseDown = true;
-		});
-		setOnMouseReleased(e -> {
-//			System.out.println("mouse released");
-			mouseDown = false;
-		});
-
+	
 	}
 
 	/**
@@ -53,13 +45,13 @@ public class BoardDisplay extends GridPane {
 				Cell cell = cellFactory(state, i, j);
 				// set state togle
 				cell.setOnMousePressed(e -> {
-					System.out.println("mouseDonw");
+//					System.out.println("mouseDonw");
 					Cell c = (Cell) cell;
 					boolean gottenState = stateManager.getCellState(c.getI(), c.getJ());
 					boolean newState = !stateManager.getCellState(c.getI(), c.getJ());
-					System.out.printf("i: %d, j: %d%n", c.getI(), c.getJ());
-					System.out.println("gottenState: " + gottenState);
-					System.out.println("newState: " + newState);
+//					System.out.printf("i: %d, j: %d%n", c.getI(), c.getJ());
+//					System.out.println("gottenState: " + gottenState);
+//					System.out.println("newState: " + newState);
 					stateManager.setCellState(c.getI(), c.getJ(), newState);
 					c.setAlive(newState);
 				});
@@ -67,23 +59,6 @@ public class BoardDisplay extends GridPane {
 			}
 		}
 	}
-//
-//	public void addMouseEvents() {
-//		for (Node cell : getChildren()) {
-////			System.out.println("Adding mouse event");
-//			cell.setOnMousePressed(e -> {
-//				System.out.println("mouseDonw");
-//				Cell c = (Cell) cell;
-//				boolean gottenState = stateManager.getCellState(c.getI(), c.getJ());
-//				boolean newState = !stateManager.getCellState(c.getI(), c.getJ());
-////				System.out.printf("i: %d, j: %d%n", c.getI(), c.getJ());
-////				System.out.println("gottenState: " + gottenState);
-////				System.out.println("newState: " + newState);
-//				stateManager.setCellState(c.getI(), c.getJ(), newState);
-//				c.setAlive(newState);
-//			});
-//		}
-//	}
 
 	/**
 	 * Creates a rectangle that is either green (alive) or red (dead)

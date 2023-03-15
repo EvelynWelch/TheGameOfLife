@@ -22,18 +22,23 @@ public class UserInterface {
 	FileChooser fc = new FileChooser();
 	
 	Button pausePlayButton = new Button("play");
+	
+	HBox speedControls = new HBox();
 	Label speedLabel = new Label("1.0");
 	Button fasterButton = new Button(">>");
 	Button slowerButton = new Button("<<");
 	
 	
+	HBox generationControls = new HBox();
 	Label skipGenerationsLabel = new Label("Skip generations: ");
 	TextField skipGenerationsTextField = new TextField("25");
 	Button skipGenerationsButton = new Button("skip");
 	
+	HBox loadSaveControls = new HBox();
 	Button saveButton = new Button("save");
 	Button loadButton = new Button("load");
 	
+	HBox boardSizeControls = new HBox();
 	Label boardSizeLabel = new Label("Board size: ");
 	TextField boardSizeTextField = new TextField("25");
 	Button setBoardSizeButton = new Button("size");
@@ -64,9 +69,16 @@ public class UserInterface {
 	 * NOTE: some of the stuff might not be able to get set up here because it requires info from the BoardGrid
 	 * */
 	private void setUp() {
-		UIpane.getChildren().addAll(pausePlayButton, slowerButton, speedLabel, fasterButton, 
-				skipGenerationsLabel, skipGenerationsTextField, skipGenerationsButton, 
-				loadButton, saveButton, boardSizeLabel, boardSizeTextField, setBoardSizeButton);
+		
+		
+		
+		speedControls.getChildren().addAll(slowerButton, speedLabel, fasterButton);
+		generationControls.getChildren().addAll(skipGenerationsLabel, skipGenerationsTextField, skipGenerationsButton);
+		loadSaveControls.getChildren().addAll(loadButton, saveButton);
+		boardSizeControls.getChildren().addAll(boardSizeLabel, boardSizeTextField, setBoardSizeButton);
+		
+		UIpane.getChildren().addAll(pausePlayButton, speedControls, generationControls, 
+				loadSaveControls, boardSizeControls);
 //		fasterButton.setOnAction(e -> {
 //		      System.out.println("fasterButton pressed!");
 //	    });

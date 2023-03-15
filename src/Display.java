@@ -19,7 +19,8 @@ import javafx.animation.KeyFrame;
 public class Display extends Application {
 	boolean isPlaying = false;
 	double playSpeed = 500;
-	
+	boolean hasAnimationPlayed = false;
+	double currentSpeed = 1.0;
 
 	public Rectangle makeCell(boolean alive) {
 		// alive sets it's color
@@ -84,22 +85,27 @@ public class Display extends Application {
 				this.isPlaying = false;
 			} else {
 				ui.pausePlayButton.setText("pause");
+				animation.setRate(currentSpeed);
 				animation.play();
 				this.isPlaying = true;
 			}
 		});
 		// add speed up and slow down functionality
 		ui.fasterButton.setOnAction(e -> {
-			double currentRate = animation.getCurrentRate(); // 1.00
-			double newRate = currentRate += .5; // this will make every click go faster and faster
-			animation.setRate(newRate);
+			
+//			double currentRate = animation.getCurrentRate(); // 1.00
+			
+			double newRate = currentSpeed += .5; // this will make every click go faster and faster
+			if(isPlaying) {
+				animation.setRate(newRate);
+			}
 			ui.setSpeedLabel(newRate);
 
 		});
 		ui.slowerButton.setOnAction(e -> {
-			double currentRate = animation.getCurrentRate(); // 1.00
-			if(currentRate > 0) {
-				double newRate = currentRate -= .5;
+//			double currentRate = animation.getCurrentRate(); // 1.00
+			if(currentSpeed > 0) {
+				double newRate = currentSpeed -= .5;
 				animation.setRate(newRate);
 				ui.setSpeedLabel(newRate);
 			}
@@ -185,3 +191,4 @@ public class Display extends Application {
 		launch(args);
 	}
 }
+;

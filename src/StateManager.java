@@ -6,7 +6,7 @@ public class StateManager {
 	// True is alive, false is dead.
 
 	boolean[][] board;
-	
+
 	StateManager() {
 		this.board = new boolean[100][100];
 	}
@@ -14,8 +14,8 @@ public class StateManager {
 	StateManager(boolean[][] board) {
 		this.board = board;
 	}
-	
-	StateManager(int size){
+
+	StateManager(int size) {
 		this.board = new boolean[size][size];
 	}
 
@@ -60,17 +60,17 @@ public class StateManager {
 		} else if (livingNeighbors == 1 && cell) {
 			// If a cell has 1 living neighbor it dies of starvation.
 			return false;
-		} else if((livingNeighbors == 1 || livingNeighbors == 2) && !cell) {
+		} else if ((livingNeighbors == 1 || livingNeighbors == 2) && !cell) {
 			return false;
-		} else if(livingNeighbors == 0) {
+		} else if (livingNeighbors == 0) {
 			// no living neighbors dies
 			return false;
 		}
-		System.out.println("StateManager.nextState() error!!");
-		System.out.printf("point: y = %d, x = %d %n", y , x);
+//		System.out.println("StateManager.nextState() error!!");
+//		System.out.printf("point: y = %d, x = %d %n", y , x);
 		return false;
 	}
-	
+
 	public int countNeighbors(int y, int x) {
 		int livingNeighbors = 0;
 		int[][] neighbors = getNeighborLocations(x, y);
@@ -92,9 +92,9 @@ public class StateManager {
 		}
 		return livingNeighbors;
 	}
-	
+
 	/**
-	 * Calculates the next state for each cell. 
+	 * Calculates the next state for each cell.
 	 */
 	public void nextGeneration() {
 		// Assumes all rows have the same length
@@ -107,13 +107,39 @@ public class StateManager {
 		board = nextGeneration;
 		// printBoard();
 	}
-	
+
 	public void printBoard() {
-		for(int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
 				System.out.print(board[i][j] + " ");
 			}
 			System.out.print("\n");
+		}
+	}
+
+	/**
+	 * Increases or decreases board size NOTE: this assumes the board is a square
+	 * NOTE: it will add or cut it off of the "right" and "bottom".
+	 */
+	public void changeBoardSize(int targetSize) {
+		int currentSize = board.length;
+		if (targetSize > currentSize) {
+			boolean[][] newBoard = new boolean[targetSize][targetSize];
+			for (int i = 0; i < board.length; i++) {
+				for (int j = 0; j < board[i].length; j++) {
+					newBoard[i][j] = board[i][j];
+				}
+			}
+			board = newBoard;
+		}
+		if(targetSize < currentSize) {
+			boolean[][] newBoard = new boolean[targetSize][targetSize];
+			for (int i = 0; i < newBoard.length; i++) {
+				for (int j = 0; j < newBoard[i].length; j++) {
+					newBoard[i][j] = board[i][j];
+				}
+			}
+			board = newBoard;
 		}
 	}
 

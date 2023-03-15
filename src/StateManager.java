@@ -6,7 +6,7 @@ public class StateManager {
 	// True is alive, false is dead.
 
 	boolean[][] board;
-
+	
 	StateManager() {
 		this.board = new boolean[100][100];
 	}
@@ -26,6 +26,9 @@ public class StateManager {
 		return board[i][j];
 	}
 	
+	/** 
+	 * Sets the cell state at board[i][j];
+	 * */
 	public void setCellState(int i, int j, boolean state) {
 //		System.out.println("setCellState() called");
 		System.out.printf("i: %d, j: %d%n", i, j);
@@ -83,7 +86,9 @@ public class StateManager {
 //		System.out.printf("point: y = %d, x = %d %n", y , x);
 		return false;
 	}
-
+	 /** 
+	  * Counts the number of living neighbors 
+	  * */
 	public int countNeighbors(int y, int x) {
 		int livingNeighbors = 0;
 		int[][] neighbors = getNeighborLocations(x, y);
@@ -134,7 +139,6 @@ public class StateManager {
 	}
 
 	/**
-	 * Increases or decreases board size NOTE: this assumes the board is a square
 	 * NOTE: it will add or cut it off of the "right" and "bottom".
 	 */
 	public void changeBoardSize(int targetSize) {

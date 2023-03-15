@@ -32,6 +32,7 @@ public class UserInterface {
 	Button skipGenerationsButton = new Button("skip");
 	
 	Button saveButton = new Button("save");
+	Button loadButton = new Button("load");
 	
 	Label boardSizeLabel = new Label("Board size: ");
 	TextField boardSizeTextField = new TextField("25");
@@ -65,7 +66,7 @@ public class UserInterface {
 	private void setUp() {
 		UIpane.getChildren().addAll(pausePlayButton, slowerButton, speedLabel, fasterButton, 
 				skipGenerationsLabel, skipGenerationsTextField, skipGenerationsButton, 
-				saveButton, boardSizeLabel, boardSizeTextField, setBoardSizeButton);
+				loadButton, saveButton, boardSizeLabel, boardSizeTextField, setBoardSizeButton);
 //		fasterButton.setOnAction(e -> {
 //		      System.out.println("fasterButton pressed!");
 //	    });

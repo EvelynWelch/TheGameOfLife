@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.animation.Timeline;
@@ -18,6 +19,7 @@ import javafx.animation.KeyFrame;
 public class Display extends Application {
 	boolean isPlaying = false;
 	double playSpeed = 500;
+	
 
 	public Rectangle makeCell(boolean alive) {
 		// alive sets it's color
@@ -47,7 +49,8 @@ public class Display extends Application {
 		// TODO: export current state (can only happen when paused) on button press
 		// pause then export
 		// TODO: load state (Take a file string and check if it exists etc)
-		// TODO: Make it so people can draw on the board.
+		// [x] TODO: Make it so people can draw on the board.
+		// TODO: Make it stop if nothing changed between generations.
 
 		// Generate a random board
 		BorderPane wrapper = new BorderPane();
@@ -123,9 +126,23 @@ public class Display extends Application {
 		// Save button
 		// game needs to start paused.
 		// save needs to accompanied by load.
-		// 
+		
 		ui.saveButton.setOnAction(e ->{
-			System.out.println("save not implimented yet.");
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Set save location");
+			String file = fileChooser.showSaveDialog(primaryStage).toString();
+			DataStore dataStore = new DataStore(file);
+			dataStore.create(board.stateManager.board);
+		});
+		ui.loadButton.setOnAction(e -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Resource File");
+			String file = fileChooser.showOpenDialog(primaryStage).toString();
+			DataStore dataStore = new DataStore(file);
+			boolean[][] loadedBoard = (boolean[][])dataStore.read();
+			StateManager newState = new StateManager(loadedBoard);
+			board.stateManager = newState;
+			board.makeBoard();
 		});
 		// set board size
 		// set board size needs to be done before it has started playing. so it needs to start paused
@@ -137,7 +154,7 @@ public class Display extends Application {
 		
 		// I don't know how to make this update the display. Maybe make a new timeline that updates it 1 time.
 		ui.setBoardSizeButton.setOnAction(e -> {
-			boolean wasPlaying = isPlaying;
+			
 			if(isPlaying) {
 				animation.pause();
 				isPlaying = false;
@@ -147,7 +164,7 @@ public class Display extends Application {
 			int boardSize = UserInterface.getTextFieldTextAsInt(ui.boardSizeTextField);
 			board.stateManager.changeBoardSize(boardSize);
 			// re draw the board.
-			board.drawBoard();
+			board.makeBoard();
 //			if(wasPlaying) {
 //				animation.play();
 //				isPlaying = true;

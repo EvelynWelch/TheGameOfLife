@@ -8,7 +8,6 @@ public class BoardDisplay extends GridPane {
 	boolean mouseDown = false;
 
 	/**
-	 * NOTE: the state manager has to be instantiated
 	 */
 	BoardDisplay(StateManager stateManager) {
 		super();
@@ -36,26 +35,14 @@ public class BoardDisplay extends GridPane {
 	/**
 	 * Goes through StateManager.boad and makes all of the corresponding cells
 	 */
-	public void drawBoard() {
-		for (int i = 0; i < this.stateManager.board.length; i++) {
-			for (int j = 0; j < this.stateManager.board[i].length; j++) {
-				add(cellFactory(this.stateManager.board[i][j], i, j), j, i);
-			}
-		}
-	}
-	
-	
-	public void redrawBoard() {
-		for (Node cell : getChildren()) {
-			Cell c = (Cell)cell;
-			System.out.println("drawing board");
-			c.draw();
-////		System.out.println("Adding mouse event");
-//		cell.setOnMousePressed(e -> {
-//			System.out.println("mouseDonw");
-//			Cell c = (Cell) cell;
-		}
-	}
+//	public void drawBoard() {
+//		for (int i = 0; i < this.stateManager.board.length; i++) {
+//			for (int j = 0; j < this.stateManager.board[i].length; j++) {
+//				add(cellFactory(this.stateManager.board[i][j], i, j), j, i);
+//			}
+//		}
+//	}
+//	
 
 	public void makeBoard() {
 		for (int i = 0; i < this.stateManager.board.length; i++) {
@@ -77,7 +64,6 @@ public class BoardDisplay extends GridPane {
 					c.setAlive(newState);
 				});
 				add(cell, j, i);
-
 			}
 		}
 	}

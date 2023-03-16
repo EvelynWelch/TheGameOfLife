@@ -41,7 +41,7 @@ public class UserInterface {
 	
 	HBox boardSizeControls = new HBox();
 	Label boardSizeLabel = new Label("Board size: ");
-	TextField boardSizeTextField = new TextField("25");
+	TextField boardSizeTextField = new TextField("50");
 	Button setBoardSizeButton = new Button("size");
 	
 	
@@ -55,8 +55,6 @@ public class UserInterface {
 	public void setSpeedLabel(double speed) {
 		speedLabel.setText(String.valueOf(speed));
 	};
-	
-	
 	
 	
 	/** get UIpane*/

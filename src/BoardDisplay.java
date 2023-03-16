@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -20,22 +22,35 @@ public class BoardDisplay extends GridPane {
 	 */
 	public void nextGeneration() {
 		this.stateManager.nextGeneration();
-		makeBoard();
-//		redrawBoard();
+//		makeBoard();
+		redrawBoard();
 	}
-
-	/**
-	 * Goes through StateManager.boad and makes all of the corresponding cells
-	 */
-//	public void drawBoard() {
-//		for (int i = 0; i < this.stateManager.board.length; i++) {
-//			for (int j = 0; j < this.stateManager.board[i].length; j++) {
-//				add(cellFactory(this.stateManager.board[i][j], i, j), j, i);
-//			}
-//		}
-//	}
-//	
-
+	
+	public void redrawBoard() {
+		ArrayList<Node> deadChildren = new ArrayList<>();
+		for(Node cell : getChildren()) {
+			Cell c = (Cell)cell;
+			boolean inBounds = true;
+			if(!(c.getI() > stateManager.board.length -1)) {
+				if(!(c.getJ() > stateManager.board[c.getI()].length -1)) {
+					c.setAlive(stateManager.getCellState(c.getI(), c.getJ()));
+					c.draw();
+				} else {
+					inBounds = false;
+				}
+			} else {
+				inBounds = false;
+			}
+			if(!inBounds) {
+				deadChildren.add(cell);
+			}
+		}
+		for(Node d : deadChildren) {
+			getChildren().remove(d);
+		}
+		
+		
+	}
 	public void makeBoard() {
 		for (int i = 0; i < this.stateManager.board.length; i++) {
 			for (int j = 0; j < this.stateManager.board[i].length; j++) {
@@ -43,15 +58,11 @@ public class BoardDisplay extends GridPane {
 				boolean state = this.stateManager.getCellState(i, j);
 				// make a new cell
 				Cell cell = cellFactory(state, i, j);
-				// set state togle
+				// set state toggle
 				cell.setOnMousePressed(e -> {
 //					System.out.println("mouseDonw");
-					Cell c = (Cell) cell;
-					boolean gottenState = stateManager.getCellState(c.getI(), c.getJ());
+					Cell c = cell;
 					boolean newState = !stateManager.getCellState(c.getI(), c.getJ());
-//					System.out.printf("i: %d, j: %d%n", c.getI(), c.getJ());
-//					System.out.println("gottenState: " + gottenState);
-//					System.out.println("newState: " + newState);
 					stateManager.setCellState(c.getI(), c.getJ(), newState);
 					c.setAlive(newState);
 				});
@@ -69,11 +80,6 @@ public class BoardDisplay extends GridPane {
 		Cell cell = new Cell(alive, i, j);
 		cell.setHeight(10);
 		cell.setWidth(10);
-//		cell.setOnMouseEntered(e -> {
-//			if(mouseDown) {
-//				
-//			}
-//		});
 		cell.setStroke(Color.BLACK);
 		if (alive) {
 			cell.setFill(Color.GREEN);

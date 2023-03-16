@@ -64,7 +64,6 @@ public class StateManager {
 	public boolean nextState(int y, int x) {
 		int livingNeighbors = countNeighbors(y, x);
 		boolean cell = board[y][x];
-//		System.out.println("livingNeighbors: " + livingNeighbors);
 		if (livingNeighbors >= 4 && cell) {
 			// If a cell is alive and has 4 or more neighbors it dies
 			return false;
@@ -83,8 +82,7 @@ public class StateManager {
 			// no living neighbors dies
 			return false;
 		}
-//		System.out.println("StateManager.nextState() error!!");
-//		System.out.printf("point: y = %d, x = %d %n", y , x);
+
 		return false;
 	}
 
@@ -94,10 +92,7 @@ public class StateManager {
 	public int countNeighbors(int y, int x) {
 		int livingNeighbors = 0;
 		int[][] neighbors = getNeighborLocations(x, y);
-//		System.out.println("nextState() neighbor.length: " + neighbors.length);
 		for (int i = 0; i < neighbors.length; i++) {
-//			System.out.println("nextState() neighbor: y: " + neighbors[i][0] + " x: " + neighbors[i][1]);
-//			System.out.println("nextState() neighbors[i].length: " + neighbors[i].length);
 			if ((neighbors[i][0] >= 0) && // if y isn't negative
 					(neighbors[i][0] < board.length) && // if y < boards y axis
 					(neighbors[i][1] >= 0) && // if x isn't negative
@@ -118,23 +113,18 @@ public class StateManager {
 	 */
 	public void nextGeneration() {
 		// Assumes all rows have the same length
-		if (!stagnant) {
-			stagnant = true;
-			boolean[][] nextGeneration = new boolean[board.length][board[0].length];
-			for (int i = 0; i < board.length; i++) {
-				for (int j = 0; j < board[i].length; j++) {
-					boolean next = nextState(i, j);
-					if (next != this.getCellState(i, j)) {
-						stagnant = false;
-					}
-					nextGeneration[i][j] = next;
+		stagnant = true;
+		boolean[][] nextGeneration = new boolean[board.length][board[0].length];
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				boolean next = nextState(i, j);
+				if (next != this.getCellState(i, j)) {
+					stagnant = false;
 				}
+				nextGeneration[i][j] = next;
 			}
-			board = nextGeneration;
-		} else {
-			System.out.println("Board is stangant");
 		}
-		// printBoard();
+		board = nextGeneration;
 	}
 
 	/**

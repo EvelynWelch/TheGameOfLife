@@ -66,12 +66,10 @@ public class Display extends Application {
 		board.makeBoard();
 		// Set up the Animation
 		Timeline animation = new Timeline(new KeyFrame(Duration.millis(playSpeed), e -> {
-			if(!board.stateManager.stagnant) {
-				board.nextGeneration();
-			}			
+				board.nextGeneration();	
 		}));
 		animation.setCycleCount(Timeline.INDEFINITE);
-//		animation.play(); // Start animation
+
 
 		// Set the pause / play functionality to pausePlayButton
 		ui.pausePlayButton.setOnAction(e -> {

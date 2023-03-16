@@ -6,9 +6,10 @@ public class StateManager {
 	// True is alive, false is dead.
 
 	boolean[][] board;
+	boolean stagnant = false;
 
 	StateManager() {
-		this.board = new boolean[100][100];
+		this.board = new boolean[50][50];
 	}
 
 	StateManager(boolean[][] board) {
@@ -17,6 +18,22 @@ public class StateManager {
 
 	StateManager(int size) {
 		this.board = new boolean[size][size];
+	}
+
+	/**
+	 * Get the cell at board[y][x]
+	 */
+	public boolean getCellState(int i, int j) {
+		return board[i][j];
+	}
+
+	/**
+	 * Sets the cell state at board[i][j];
+	 */
+	public void setCellState(int i, int j, boolean state) {
+//		System.out.println("setCellState() called");
+//		System.out.printf("i: %d, j: %d%n", i, j);
+		board[i][j] = state;
 	}
 
 	/**
@@ -47,7 +64,6 @@ public class StateManager {
 	public boolean nextState(int y, int x) {
 		int livingNeighbors = countNeighbors(y, x);
 		boolean cell = board[y][x];
-//		System.out.println("livingNeighbors: " + livingNeighbors);
 		if (livingNeighbors >= 4 && cell) {
 			// If a cell is alive and has 4 or more neighbors it dies
 			return false;
@@ -66,18 +82,17 @@ public class StateManager {
 			// no living neighbors dies
 			return false;
 		}
-//		System.out.println("StateManager.nextState() error!!");
-//		System.out.printf("point: y = %d, x = %d %n", y , x);
+
 		return false;
 	}
 
+	/**
+	 * Counts the number of living neighbors
+	 */
 	public int countNeighbors(int y, int x) {
 		int livingNeighbors = 0;
 		int[][] neighbors = getNeighborLocations(x, y);
-//		System.out.println("nextState() neighbor.length: " + neighbors.length);
 		for (int i = 0; i < neighbors.length; i++) {
-//			System.out.println("nextState() neighbor: y: " + neighbors[i][0] + " x: " + neighbors[i][1]);
-//			System.out.println("nextState() neighbors[i].length: " + neighbors[i].length);
 			if ((neighbors[i][0] >= 0) && // if y isn't negative
 					(neighbors[i][0] < board.length) && // if y < boards y axis
 					(neighbors[i][1] >= 0) && // if x isn't negative
@@ -98,16 +113,23 @@ public class StateManager {
 	 */
 	public void nextGeneration() {
 		// Assumes all rows have the same length
+		stagnant = true;
 		boolean[][] nextGeneration = new boolean[board.length][board[0].length];
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
-				nextGeneration[i][j] = nextState(i, j);
+				boolean next = nextState(i, j);
+				if (next != this.getCellState(i, j)) {
+					stagnant = false;
+				}
+				nextGeneration[i][j] = next;
 			}
 		}
 		board = nextGeneration;
-		// printBoard();
 	}
 
+	/**
+	 * prints out the entire board.
+	 */
 	public void printBoard() {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
@@ -118,7 +140,6 @@ public class StateManager {
 	}
 
 	/**
-	 * Increases or decreases board size NOTE: this assumes the board is a square
 	 * NOTE: it will add or cut it off of the "right" and "bottom".
 	 */
 	public void changeBoardSize(int targetSize) {
@@ -132,7 +153,7 @@ public class StateManager {
 			}
 			board = newBoard;
 		}
-		if(targetSize < currentSize) {
+		if (targetSize < currentSize) {
 			boolean[][] newBoard = new boolean[targetSize][targetSize];
 			for (int i = 0; i < newBoard.length; i++) {
 				for (int j = 0; j < newBoard[i].length; j++) {
